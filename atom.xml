@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Create Gallery Demo</title>
+  
+  <subtitle>Take Photo Think Seriously</subtitle>
+  <link href="https://lfkdsk.github.io/create-gallery/atom.xml" rel="self"/>
+  
+  <link href="https://lfkdsk.github.io/create-gallery/"/>
+  <updated>2023-10-11T07:21:01.528Z</updated>
+  <id>https://lfkdsk.github.io/create-gallery/</id>
+  
+  <author>
+    <name>lfkdsk</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>照片集</title>
+    <link href="https://lfkdsk.github.io/create-gallery/2023/undefined/"/>
+    <id>https://lfkdsk.github.io/create-gallery/2023/undefined/</id>
+    <published>2023-10-11T07:21:01.528Z</published>
+    <updated>2023-10-11T07:21:01.528Z</updated>
+    
+    
+    
+    
+    
+  </entry>
+  
+</feed>
