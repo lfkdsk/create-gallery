@@ -27,24 +27,19 @@ jobs:
         repository: ${{ env.TEMPLATE_REPO }}
         ref: ${{ env.TEMPLATE_BRANCH }}        
     - name: Checkout gallery repo
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         path: gallery    
-    - name: Checkout thumbnail & Set whether the branch is already existing to GITHUB_ENV
-      run: |
-        branch_is_existing=$(
-          git fetch origin ${THUMBNAIL_BRANCH} &&
-          echo true ||
-          echo false
-        )
-        echo "BRANCH_IS_EXISTING=${branch_is_existing}" >> $GITHUB_ENV
-    - name: Create branch
-      if: env.BRANCH_IS_EXISTING == 'false'
-      uses: EndBug/add-and-commit@v9
+    - name: Checkout thumbnail repo
+      uses: actions/checkout@v3
       with:
-        cwd: './thumbnail_public'
-        new_branch: ${{ env.THUMBNAIL_BRANCH }}
-
+        path: thumbnail_public    
+    - name: Switch thumbnail branch
+      run: |
+        cd thumbnail_public
+        switch = "!f() { git checkout $1 2>/dev/null || git checkout -b $1; }; f"
+        git switch thumbnail
+        
     - name: Checkout theme repo
       uses: actions/checkout@v3
       with:
