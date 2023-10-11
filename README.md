@@ -64,8 +64,8 @@ thumbnail_url: https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@thumbnail/
 base_url: https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@master
 ```
 
-- `base_url` : https://cdn.jsdelivr.net/gh/<github id>/<repo id>@master
-- `thumbnail_url`:  https://cdn.jsdelivr.net/gh/<github id>/<repo id>@thumbnail/
+- `base_url` : `https://cdn.jsdelivr.net/gh/<github id>/<repo id>@master`
+- `thumbnail_url`:  `https://cdn.jsdelivr.net/gh/<github id>/<repo id>@thumbnail/`
 
 ## 2. Add `GH_PAGES_DEPLOY`
 
