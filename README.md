@@ -1,6 +1,6 @@
 # Create Gallery Intro
 
-## 0. Folk this project.
+## 0. Folk this project [link](https://github.com/lfkdsk/create-gallery/fork)
 
 ## 1. Change Config
 
@@ -91,9 +91,9 @@ base_url: https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@master
 
 ```
 Title:
-	date: 2023-10-11
-	url: Japan
-	cover: Japan/XXXX.jpg
+  date: 2023-10-11
+  url: Japan
+  cover: Japan/XXXX.jpg
 
 ...
 ```
