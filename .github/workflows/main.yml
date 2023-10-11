@@ -37,7 +37,7 @@ jobs:
     - name: Switch thumbnail branch
       run: |
         cd thumbnail_public
-        git checkout thumbnail 2>/dev/null || (git switch --orphan thumbnail && git rm -rf .)
+        git checkout thumbnail 2>/dev/null || git switch --orphan thumbnail && git rm -rf .
         
     - name: Checkout theme repo
       uses: actions/checkout@v3
