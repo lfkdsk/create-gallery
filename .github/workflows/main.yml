@@ -4,15 +4,12 @@ on:
   push:
     branches: [master]
   workflow_dispatch:
-  # revert this if you want build everyday.
   # schedule:
   #   - cron: '0 12 * * *'
 
 env:
   GIT_USER: lfkdsk # change to yourself
   GIT_EMAIL: lfkdsk@gmail.com # change to yourself
-  # the following don't change.
-  BASE_URL: https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@master
   THEME_REPO: lfkdsk/hexo-theme-type
   THEME_BRANCH: main
   TEMPLATE_REPO: lfkdsk/album_template
@@ -32,6 +29,11 @@ jobs:
       uses: actions/checkout@v2
       with:
         path: gallery
+    - name: Checkout thumbnail repo
+      uses: actions/checkout@v2
+      with:
+        ref: thumbnail
+        path: thumbnail_public        
     - name: Checkout theme repo
       uses: actions/checkout@v3
       with:
@@ -54,6 +56,15 @@ jobs:
         npm install hexo-cli -g
         hexo g --config new_config.yml
         ls ./public        
+    - name: Deploy Thumbnail
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        publish_dir: ./thumbnail_public
+        publish_branch: thumbnail
+        github_token: ${{ secrets.GH_PAGES_DEPLOY }}
+        user_name: ${{ env.GIT_USER }}
+        user_email: ${{ env.GIT_EMAIL }}
+        commit_msg: ${{ github.event.head_commit.message }}          
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3
       with:
