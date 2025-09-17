@@ -53,7 +53,7 @@
   <link rel="apple-touch-icon" sizes="114x114" href="https://imgur.lzmun.com/picgo/after2022/tripper2color.png_iPhoneHD" />
   <link rel="apple-touch-icon" sizes="144x144" href="https://imgur.lzmun.com/picgo/after2022/tripper2color.png_RetinaiPad" />
   <!-- 添加 RSS 订阅 -->
-  <link rel="alternate" type="application/rss+xml" title="Create Gallery Demo" href="/atom.xml" />
+  <link rel="alternate" type="application/rss+xml" title="Create Gallery Demo" href="/rss" />
   <!-- uc强制竖屏 -->
   <meta name="screen-orientation" content="portrait">
   <!-- QQ强制竖屏 -->
@@ -68,7 +68,8 @@
   <meta name="x5-page-mode" content="app">
   <!-- https://material.io/resources/icons/?style=outline -->
   
-  <script src="https://lf1-cdn-tos.bytegoofy.com/obj/iconpark/icons_20213_18.4a5f87dae8e6f9e336b9ad6fa00f8e8f.js"></script>
+  
+  <script src="https://lf1-cdn-tos.bytegoofy.com/obj/iconpark/icons_29703_16.0f9623ad85e64efb07f6dddba36807a6.js"></script>
   
   
 <style>
@@ -120,6 +121,7 @@
   
   
   
+  
   <!--highlight.js CSS-->
   
   
@@ -127,16 +129,22 @@
 
   
   
+
+  
+
   <!-- jquery -->
   
   <script src="/create-gallery/js/jquery.min.js"></script>
   
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
   <!--Comment-->
   
   <!--Vercel Audiences Analytics-->
   
   <!--umami analytics-->
   
+  <script src="js/tools.js"></script>
   <!--Howxm Analytics-->
   
   
@@ -201,6 +209,7 @@
 <meta name="generator" content="Hexo 6.0.0"></head>
 
 
+
 <!--Other Pages-->
 
 
@@ -249,14 +258,204 @@
   }
 </style>
   <!-- Main Content -->
-  <section class="pjax-area">
+  <script src="js/html2canvas.js"></script>
+<script src="js/mini-live-photo.js"></script>
+<section class="pjax-area">
   <div class="content-area post-album default-content-area">
-    <div class="grid grid-cols-3 gap-2">
-      <div class="pic-area default-pic">
-        <div class="pic-item" />
-        <img id="imgbox" class="pic-box" src="https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@master/DaLi2022/20230818-033826.1c949qkr08m8.webp" />
+    <div class="grid grid-cols-3">
+      <div class="default-pic gap-2 wrapper">
+        <div id="all-pic" class="pic-area">
+          <div id="pic-g" class="pic-item" />
+          <img id="imgbox" class="pic-box" src="https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@master/DaLi2022/20230818-033826.1c949qkr08m8.webp" />
+        </div>
+        <div id="exif-wrapper" class="pic-wrapper">
+    <div class="exif-left" style="display: flex; flex-direction: column; justify-content: center;">
+        <div id="exif-param"></div>
+        <div id="exif-date"></div>
+    </div>
+    <div class="exif-right" style="display: flex; flex-direction: column; justify-self: center;">
+        <div style="display: flex; flex-direction:row; justify-content: start;">
+            <div style="display: flex; justify-content: center; flex-direction: column;">
+                <img id="exif-maker-logo" class="nofancy" style="object-fit: cover;"></img>
+            </div>
+            <div style="margin-left: 10px; width: 1px; background-color: black;"></div>
+            <div id="exif-text" style="padding-left: 10px; position: relative;">
+                <div style="display: flex; flex-direction: column; justify-content: center;">
+                    <div id="exif-maker"></div>
+                    <div id="exif-lens"></div>
+                    <div id="exif-author"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="normal-wrapper" class="pic-wrapper" style="height: 68px; justify-content: center; flex-direction: column;">
+    <div id="no-exif-data" style="text-align: center; font-size: large; font-weight: lighter;">
+    </div>
+</div>
+<style>
+    #exif-text {
+        max-width: calc(20vw);
+    }
+
+    #exif-maker-logo {
+        text-align: center;
+        vertical-align: baseline;
+    }
+
+    #exif-param {
+        font-weight: bold;
+        font-size: 80%;
+    }
+
+    #exif-maker {
+        font-size: 80%;
+    }
+
+    #exif-date {
+        margin-top: 4px;
+        font-weight: lighter;
+        color: gray;
+        font-size: 80%;
+    }
+
+    #exif-lens,
+    #exif-author {
+        font-weight: lighter;
+        color: gray;
+        font-size: 80%;
+    }
+
+    #exif-lens {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+
+    .pic-wrapper {
+        display: flex;
+        justify-content: space-between;
+        background-color: white;
+        padding: 4px 8px;
+    }
+
+    .pic-area {
+        border-style: solid;
+        border-width: thin;
+        border-color: rgb(22 22 22 / 48%);
+    }
+
+    @media (max-width: 768px) {
+        .pic-wrapper {
+            padding: 4px 0px;
+        }
+
+        #exif-param {
+            font-size: .5rem;
+        }
+
+        #exif-date {
+            font-size: .6rem;
+        }
+
+        #exif-maker {
+            font-size: .5rem;
+        }
+
+        #exif-lens,
+        #exif-author {
+            font-size: .5rem;
+        }
+
+        #exif-text {
+            max-width: calc(30vw);
+        }
+    }
+
+    .apple-logo,
+    .ricoh-logo,
+    .fujifilm-logo {
+        height: 40px;
+    }
+
+    .nikon-logo {
+        height: 50px;
+    }
+
+    .sony-logo,
+    .canon-logo {
+        width: 80px;
+    }
+
+    .dji-logo {
+        width: 60px;
+    }
+
+    @media (max-width: 768px) {
+        .apple-logo,
+        .ricoh-logo,
+        .nikon-logo,
+        .fujifilm-logo {
+            height: 30px;
+        }
+
+        .sony-logo,
+        .canon-logo {
+            width: 40px;
+        }
+
+    }
+
+    @media (prefers-color-scheme: dark) {
+        .pic-area {
+            border-style: solid;
+            border-width: thin;
+            background-color: white;
+            border-color: white;
+        }
+    }
+
+.mlp-wrap {
+    overflow: hidden;
+    border-radius: inherit;    /* 如果父级有圆角，继承一下更自然 */
+}
+
+.mlp-wrap, [data-livephoto] { position: relative; overflow: hidden; border-radius: inherit; }
+
+/* 初始隐藏视频，启用硬件合成避免闪烁 */
+.mlp-wrap .mlp-video, [data-livephoto] .mlp-video{
+  position:absolute; inset:0; width:100%; height:100%; object-fit:contain;
+  opacity:0; transition:opacity .18s ease, transform .25s ease;
+  will-change: opacity, transform; pointer-events:none;
+}
+
+/* “首帧就绪”后，允许显示（只把不透明度交给 JS 控） */
+.mlp-wrap.is-prepped .mlp-video,
+[data-livephoto].is-prepped .mlp-video{ opacity:0; }
+
+/* 开始播放时再交叉淡入 */
+.mlp-wrap.is-playing .mlp-video,
+[data-livephoto].is-playing .mlp-video{ opacity:1; }
+
+/* （可选）缩放动画 */
+.mlp-wrap.is-zoom .mlp-video,
+[data-livephoto].is-zoom .mlp-video{ transform: scale(1.04); }
+
+[data-livephoto].is-playing {
+  -webkit-touch-callout: none;
+  user-select: none;
+  touch-action: none;
+}
+
+/* 禁止浏览器把 img/video 当成可拖拽对象 */
+[data-livephoto] img,
+[data-livephoto] video {
+  -webkit-user-drag: none;
+  user-drag: none; /* 非标准，但部分浏览器支持 */
+}
+</style>
       </div>
-      <p id="descbox" class="text-center text-xs hint-text">  - · -  </p>
+      <p id="descbox" class="text-center text-xs hint-text" hidden>  </p>
       <div class="album-list flex gap-2">
         
           
@@ -264,10 +463,18 @@
           
           
           
-          <!--  -->
+          
+          
+          
+          
+          
+          
           <a class="album-item lazy" id="0"
             name="20230818-033826.1c949qkr08m8" rel="https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@master/DaLi2022/20230818-033826.1c949qkr08m8.webp"
-            desc="  - · -  "
+            desc=" - · - "
+            share="DaLi2022/20230818-033826.1c949qkr08m8.webp"
+            video=""
+            extra='{"desc":null,"dir":"DaLi2022","exif":"","exif_data":{},"location":[],"name":"20230818-033826.1c949qkr08m8","path":"DaLi2022/20230818-033826.1c949qkr08m8.webp","thum":"https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@thumbnail//DaLi2022/20230818-033826.1c949qkr08m8.webp","url":"https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@master/DaLi2022/20230818-033826.1c949qkr08m8.webp"}'
             href="javascript:void(0);" onClick="changeimg(event)" data-src="https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@thumbnail//DaLi2022/20230818-033826.1c949qkr08m8.webp"
             aria-label="the photo 0"></a>
           
@@ -276,10 +483,18 @@
           
           
           
-          <!--  -->
+          
+          
+          
+          
+          
+          
           <a class="album-item lazy" id="1"
             name="20230818-033841.5jhooprl30k0" rel="https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@master/DaLi2022/20230818-033841.5jhooprl30k0.webp"
-            desc="  - · -  "
+            desc=" - · - "
+            share="DaLi2022/20230818-033841.5jhooprl30k0.webp"
+            video=""
+            extra='{"desc":null,"dir":"DaLi2022","exif":"","exif_data":{},"location":[],"name":"20230818-033841.5jhooprl30k0","path":"DaLi2022/20230818-033841.5jhooprl30k0.webp","thum":"https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@thumbnail//DaLi2022/20230818-033841.5jhooprl30k0.webp","url":"https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@master/DaLi2022/20230818-033841.5jhooprl30k0.webp"}'
             href="javascript:void(0);" onClick="changeimg(event)" data-src="https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@thumbnail//DaLi2022/20230818-033841.5jhooprl30k0.webp"
             aria-label="the photo 1"></a>
           
@@ -288,10 +503,18 @@
           
           
           
-          <!--  -->
+          
+          
+          
+          
+          
+          
           <a class="album-item lazy" id="2"
             name="20230818-033845.6obr4awlbf40" rel="https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@master/DaLi2022/20230818-033845.6obr4awlbf40.webp"
-            desc="  - · -  "
+            desc=" - · - "
+            share="DaLi2022/20230818-033845.6obr4awlbf40.webp"
+            video=""
+            extra='{"desc":null,"dir":"DaLi2022","exif":"","exif_data":{},"location":[],"name":"20230818-033845.6obr4awlbf40","path":"DaLi2022/20230818-033845.6obr4awlbf40.webp","thum":"https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@thumbnail//DaLi2022/20230818-033845.6obr4awlbf40.webp","url":"https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@master/DaLi2022/20230818-033845.6obr4awlbf40.webp"}'
             href="javascript:void(0);" onClick="changeimg(event)" data-src="https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@thumbnail//DaLi2022/20230818-033845.6obr4awlbf40.webp"
             aria-label="the photo 2"></a>
           
@@ -300,10 +523,18 @@
           
           
           
-          <!--  -->
+          
+          
+          
+          
+          
+          
           <a class="album-item lazy" id="3"
             name="20230818-033853.3sxwui49wn60" rel="https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@master/DaLi2022/20230818-033853.3sxwui49wn60.webp"
-            desc="  - · -  "
+            desc=" - · - "
+            share="DaLi2022/20230818-033853.3sxwui49wn60.webp"
+            video=""
+            extra='{"desc":null,"dir":"DaLi2022","exif":"","exif_data":{},"location":[],"name":"20230818-033853.3sxwui49wn60","path":"DaLi2022/20230818-033853.3sxwui49wn60.webp","thum":"https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@thumbnail//DaLi2022/20230818-033853.3sxwui49wn60.webp","url":"https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@master/DaLi2022/20230818-033853.3sxwui49wn60.webp"}'
             href="javascript:void(0);" onClick="changeimg(event)" data-src="https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@thumbnail//DaLi2022/20230818-033853.3sxwui49wn60.webp"
             aria-label="the photo 3"></a>
           
@@ -312,10 +543,18 @@
           
           
           
-          <!--  -->
+          
+          
+          
+          
+          
+          
           <a class="album-item lazy" id="4"
             name="20230818-033857.31khg4tqxky0" rel="https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@master/DaLi2022/20230818-033857.31khg4tqxky0.webp"
-            desc="  - · -  "
+            desc=" - · - "
+            share="DaLi2022/20230818-033857.31khg4tqxky0.webp"
+            video=""
+            extra='{"desc":null,"dir":"DaLi2022","exif":"","exif_data":{},"location":[],"name":"20230818-033857.31khg4tqxky0","path":"DaLi2022/20230818-033857.31khg4tqxky0.webp","thum":"https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@thumbnail//DaLi2022/20230818-033857.31khg4tqxky0.webp","url":"https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@master/DaLi2022/20230818-033857.31khg4tqxky0.webp"}'
             href="javascript:void(0);" onClick="changeimg(event)" data-src="https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@thumbnail//DaLi2022/20230818-033857.31khg4tqxky0.webp"
             aria-label="the photo 4"></a>
           
@@ -324,10 +563,18 @@
           
           
           
-          <!--  -->
+          
+          
+          
+          
+          
+          
           <a class="album-item lazy" id="5"
             name="20230818-033902.7cikhe0o6ns0" rel="https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@master/DaLi2022/20230818-033902.7cikhe0o6ns0.webp"
-            desc="  - · -  "
+            desc=" - · - "
+            share="DaLi2022/20230818-033902.7cikhe0o6ns0.webp"
+            video=""
+            extra='{"desc":null,"dir":"DaLi2022","exif":"","exif_data":{},"location":[],"name":"20230818-033902.7cikhe0o6ns0","path":"DaLi2022/20230818-033902.7cikhe0o6ns0.webp","thum":"https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@thumbnail//DaLi2022/20230818-033902.7cikhe0o6ns0.webp","url":"https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@master/DaLi2022/20230818-033902.7cikhe0o6ns0.webp"}'
             href="javascript:void(0);" onClick="changeimg(event)" data-src="https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@thumbnail//DaLi2022/20230818-033902.7cikhe0o6ns0.webp"
             aria-label="the photo 5"></a>
           
@@ -336,10 +583,18 @@
           
           
           
-          <!--  -->
+          
+          
+          
+          
+          
+          
           <a class="album-item lazy" id="6"
             name="20230818-033906.u3bfnoo79xc" rel="https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@master/DaLi2022/20230818-033906.u3bfnoo79xc.webp"
-            desc="  - · -  "
+            desc=" - · - "
+            share="DaLi2022/20230818-033906.u3bfnoo79xc.webp"
+            video=""
+            extra='{"desc":null,"dir":"DaLi2022","exif":"","exif_data":{},"location":[],"name":"20230818-033906.u3bfnoo79xc","path":"DaLi2022/20230818-033906.u3bfnoo79xc.webp","thum":"https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@thumbnail//DaLi2022/20230818-033906.u3bfnoo79xc.webp","url":"https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@master/DaLi2022/20230818-033906.u3bfnoo79xc.webp"}'
             href="javascript:void(0);" onClick="changeimg(event)" data-src="https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@thumbnail//DaLi2022/20230818-033906.u3bfnoo79xc.webp"
             aria-label="the photo 6"></a>
           
@@ -348,10 +603,18 @@
           
           
           
-          <!--  -->
+          
+          
+          
+          
+          
+          
           <a class="album-item lazy" id="7"
             name="20230818-033911.2tws9yehiby0" rel="https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@master/DaLi2022/20230818-033911.2tws9yehiby0.webp"
-            desc="  - · -  "
+            desc=" - · - "
+            share="DaLi2022/20230818-033911.2tws9yehiby0.webp"
+            video=""
+            extra='{"desc":null,"dir":"DaLi2022","exif":"","exif_data":{},"location":[],"name":"20230818-033911.2tws9yehiby0","path":"DaLi2022/20230818-033911.2tws9yehiby0.webp","thum":"https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@thumbnail//DaLi2022/20230818-033911.2tws9yehiby0.webp","url":"https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@master/DaLi2022/20230818-033911.2tws9yehiby0.webp"}'
             href="javascript:void(0);" onClick="changeimg(event)" data-src="https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@thumbnail//DaLi2022/20230818-033911.2tws9yehiby0.webp"
             aria-label="the photo 7"></a>
           
@@ -360,10 +623,18 @@
           
           
           
-          <!--  -->
+          
+          
+          
+          
+          
+          
           <a class="album-item lazy" id="8"
             name="20230818-033915.2qxr6lc8lbk0" rel="https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@master/DaLi2022/20230818-033915.2qxr6lc8lbk0.webp"
-            desc="  - · -  "
+            desc=" - · - "
+            share="DaLi2022/20230818-033915.2qxr6lc8lbk0.webp"
+            video=""
+            extra='{"desc":null,"dir":"DaLi2022","exif":"","exif_data":{},"location":[],"name":"20230818-033915.2qxr6lc8lbk0","path":"DaLi2022/20230818-033915.2qxr6lc8lbk0.webp","thum":"https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@thumbnail//DaLi2022/20230818-033915.2qxr6lc8lbk0.webp","url":"https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@master/DaLi2022/20230818-033915.2qxr6lc8lbk0.webp"}'
             href="javascript:void(0);" onClick="changeimg(event)" data-src="https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@thumbnail//DaLi2022/20230818-033915.2qxr6lc8lbk0.webp"
             aria-label="the photo 8"></a>
           
@@ -372,10 +643,18 @@
           
           
           
-          <!--  -->
+          
+          
+          
+          
+          
+          
           <a class="album-item lazy" id="9"
             name="20230818-033920.2zhy3uu2jgs0" rel="https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@master/DaLi2022/20230818-033920.2zhy3uu2jgs0.webp"
-            desc="  - · -  "
+            desc=" - · - "
+            share="DaLi2022/20230818-033920.2zhy3uu2jgs0.webp"
+            video=""
+            extra='{"desc":null,"dir":"DaLi2022","exif":"","exif_data":{},"location":[],"name":"20230818-033920.2zhy3uu2jgs0","path":"DaLi2022/20230818-033920.2zhy3uu2jgs0.webp","thum":"https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@thumbnail//DaLi2022/20230818-033920.2zhy3uu2jgs0.webp","url":"https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@master/DaLi2022/20230818-033920.2zhy3uu2jgs0.webp"}'
             href="javascript:void(0);" onClick="changeimg(event)" data-src="https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@thumbnail//DaLi2022/20230818-033920.2zhy3uu2jgs0.webp"
             aria-label="the photo 9"></a>
           
@@ -384,10 +663,18 @@
           
           
           
-          <!--  -->
+          
+          
+          
+          
+          
+          
           <a class="album-item lazy" id="10"
             name="20230818-034321.18dsiibdbkow" rel="https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@master/DaLi2022/20230818-034321.18dsiibdbkow.webp"
-            desc="  - · -  "
+            desc=" - · - "
+            share="DaLi2022/20230818-034321.18dsiibdbkow.webp"
+            video=""
+            extra='{"desc":null,"dir":"DaLi2022","exif":"","exif_data":{},"location":[],"name":"20230818-034321.18dsiibdbkow","path":"DaLi2022/20230818-034321.18dsiibdbkow.webp","thum":"https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@thumbnail//DaLi2022/20230818-034321.18dsiibdbkow.webp","url":"https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@master/DaLi2022/20230818-034321.18dsiibdbkow.webp"}'
             href="javascript:void(0);" onClick="changeimg(event)" data-src="https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@thumbnail//DaLi2022/20230818-034321.18dsiibdbkow.webp"
             aria-label="the photo 10"></a>
           
@@ -396,10 +683,18 @@
           
           
           
-          <!--  -->
+          
+          
+          
+          
+          
+          
           <a class="album-item lazy" id="11"
             name="20230818-034323.1nnpoq451xsw" rel="https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@master/DaLi2022/20230818-034323.1nnpoq451xsw.webp"
-            desc="  - · -  "
+            desc=" - · - "
+            share="DaLi2022/20230818-034323.1nnpoq451xsw.webp"
+            video=""
+            extra='{"desc":null,"dir":"DaLi2022","exif":"","exif_data":{},"location":[],"name":"20230818-034323.1nnpoq451xsw","path":"DaLi2022/20230818-034323.1nnpoq451xsw.webp","thum":"https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@thumbnail//DaLi2022/20230818-034323.1nnpoq451xsw.webp","url":"https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@master/DaLi2022/20230818-034323.1nnpoq451xsw.webp"}'
             href="javascript:void(0);" onClick="changeimg(event)" data-src="https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@thumbnail//DaLi2022/20230818-034323.1nnpoq451xsw.webp"
             aria-label="the photo 11"></a>
           
@@ -408,10 +703,18 @@
           
           
           
-          <!--  -->
+          
+          
+          
+          
+          
+          
           <a class="album-item lazy" id="12"
             name="IMG_4832" rel="https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@master/DaLi2022/IMG_4832.JPG"
-            desc="  - · -  "
+            desc=" - · - "
+            share="DaLi2022/IMG_4832.JPG"
+            video=""
+            extra='{"desc":null,"dir":"DaLi2022","exif":"Apple iPhone 12 Pro 1/122s F2 ISO 32 6mm iPhone 12 Pro back camera 6mm f/2 ","exif_data":{"EXIF DateTimeOriginal":"2022:09:26 19:09:33","EXIF ExposureTime":"1/122s","EXIF FNumber":"F2","EXIF FocalLength":"6mm","EXIF ISOSpeedRatings":"ISO 32","EXIF LensModel":"iPhone 12 Pro back camera 6mm f/2","Image Make":"Apple","Image Model":"iPhone 12 Pro"},"location":[],"name":"IMG_4832","path":"DaLi2022/IMG_4832.JPG","thum":"https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@thumbnail//DaLi2022/IMG_4832.webp","url":"https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@master/DaLi2022/IMG_4832.JPG"}'
             href="javascript:void(0);" onClick="changeimg(event)" data-src="https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@thumbnail//DaLi2022/IMG_4832.webp"
             aria-label="the photo 12"></a>
           
@@ -420,10 +723,18 @@
           
           
           
-          <!--  -->
+          
+          
+          
+          
+          
+          
           <a class="album-item lazy" id="13"
             name="IMG_4924" rel="https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@master/DaLi2022/IMG_4924.jpeg"
-            desc="  - · -  "
+            desc=" - · - "
+            share="DaLi2022/IMG_4924.jpeg"
+            video=""
+            extra='{"desc":null,"dir":"DaLi2022","exif":"Apple iPhone 12 Pro 1/2092s F1.6 ISO 32 4.2mm iPhone 12 Pro back triple camera 4.2mm f/1.6 ","exif_data":{"EXIF DateTimeOriginal":"2022:09:30 16:40:28","EXIF ExposureTime":"1/2092s","EXIF FNumber":"F1.6","EXIF FocalLength":"4.2mm","EXIF ISOSpeedRatings":"ISO 32","EXIF LensModel":"iPhone 12 Pro back triple camera 4.2mm f/1.6","Image Make":"Apple","Image Model":"iPhone 12 Pro"},"location":[],"name":"IMG_4924","path":"DaLi2022/IMG_4924.jpeg","thum":"https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@thumbnail//DaLi2022/IMG_4924.webp","url":"https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@master/DaLi2022/IMG_4924.jpeg"}'
             href="javascript:void(0);" onClick="changeimg(event)" data-src="https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@thumbnail//DaLi2022/IMG_4924.webp"
             aria-label="the photo 13"></a>
           
@@ -432,10 +743,18 @@
           
           
           
-          <!--  -->
+          
+          
+          
+          
+          
+          
           <a class="album-item lazy" id="14"
             name="IMG_5034" rel="https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@master/DaLi2022/IMG_5034.jpeg"
-            desc="  - · -  "
+            desc=" - · - "
+            share="DaLi2022/IMG_5034.jpeg"
+            video=""
+            extra='{"desc":null,"dir":"DaLi2022","exif":"Apple iPhone 12 Pro 1/149s F2 ISO 25 6mm iPhone 12 Pro back triple camera 6mm f/2 ","exif_data":{"EXIF DateTimeOriginal":"2022:10:06 17:19:14","EXIF ExposureTime":"1/149s","EXIF FNumber":"F2","EXIF FocalLength":"6mm","EXIF ISOSpeedRatings":"ISO 25","EXIF LensModel":"iPhone 12 Pro back triple camera 6mm f/2","Image Make":"Apple","Image Model":"iPhone 12 Pro"},"location":[],"name":"IMG_5034","path":"DaLi2022/IMG_5034.jpeg","thum":"https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@thumbnail//DaLi2022/IMG_5034.webp","url":"https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@master/DaLi2022/IMG_5034.jpeg"}'
             href="javascript:void(0);" onClick="changeimg(event)" data-src="https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@thumbnail//DaLi2022/IMG_5034.webp"
             aria-label="the photo 14"></a>
           
@@ -444,6 +763,21 @@
     </div>
     <div class="album-info default-info">
       <div class="album-info-main">
+        <div class="album-info-btm">
+          
+          <div class="album-share album-tool">
+            <iconpark-icon name="share-three"></iconpark-icon><a id="share" href="javascript:void(0)"> Share Link </a>
+          </div>
+          <div class="album-share album-tool">
+            <iconpark-icon name="down-picture"></iconpark-icon><a id="download" href="javascript:void(0)"> Download </a>
+          </div>
+          <div class="album-share album-tool">
+            <iconpark-icon name="save"></iconpark-icon><a id="editor" href="javascript:void(0)"> Editor </a>
+          </div>
+          <div class="album-share album-tool">
+            <iconpark-icon name="grid-nine"></iconpark-icon><a id="grid" href="javascript:void(0)"> Grid </a>
+          </div>
+        </div>
         <div class="album-title">2022 · 大理</div>
         <span class="album-subtitle">
           
@@ -462,95 +796,70 @@
 <p>生活在大理的人一定也有各种生活的烦恼，但是对于那个时候在北京领教了封闭压抑紧迫的我来说，这确是一片世外桃源。生活，仅仅是生活在大理就足充慰藉。</p>
 
       </div>
-      <div class="album-info-btm">
-        
-      </div>
     </div>
   </div>
   
-  
-    
-    <link rel="preload" href="https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@master/DaLi2022/IMG_5034.jpeg" as="image" />  
-  
-    
-    <link rel="preload" href="https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@master/DaLi2022/IMG_5034.jpeg" as="image" />  
-  
-    
-    <link rel="preload" href="https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@master/DaLi2022/IMG_5034.jpeg" as="image" />  
-  
-    
-    <link rel="preload" href="https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@master/DaLi2022/IMG_5034.jpeg" as="image" />  
-  
-    
-    <link rel="preload" href="https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@master/DaLi2022/IMG_5034.jpeg" as="image" />  
-  
-    
-    <link rel="preload" href="https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@master/DaLi2022/IMG_5034.jpeg" as="image" />  
-  
-    
-    <link rel="preload" href="https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@master/DaLi2022/IMG_5034.jpeg" as="image" />  
-  
-    
-    <link rel="preload" href="https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@master/DaLi2022/IMG_5034.jpeg" as="image" />  
-  
-    
-    <link rel="preload" href="https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@master/DaLi2022/IMG_5034.jpeg" as="image" />  
-  
-    
-    <link rel="preload" href="https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@master/DaLi2022/IMG_5034.jpeg" as="image" />  
-  
-    
-    <link rel="preload" href="https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@master/DaLi2022/IMG_5034.jpeg" as="image" />  
-  
-    
-    <link rel="preload" href="https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@master/DaLi2022/IMG_5034.jpeg" as="image" />  
-  
-    
-    <link rel="preload" href="https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@master/DaLi2022/IMG_5034.jpeg" as="image" />  
-  
-    
-    <link rel="preload" href="https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@master/DaLi2022/IMG_5034.jpeg" as="image" />  
-  
-    
-    <link rel="preload" href="https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@master/DaLi2022/IMG_5034.jpeg" as="image" />  
-    
       </div>
       <script>
         var imageBox = document.getElementById("imgbox"); // imageBox 是放置大图片的图框
         var descBox = $("#descbox");
+        var wrapper = $("#exif-wrapper");
+        var exifParam = $("#exif-param");
+        var exifMaker = $("#exif-maker");
+        var exifDate = $("#exif-date");
+        var exifLens = $("#exif-lens");
+        var exifLogo = $("#exif-maker-logo");
+        var exifAuthor = $("#exif-author");
+        var normalWrapper = $("#normal-wrapper");
+        var normalData = $("#no-exif-data");
+        var name = getParam('name');
+        var editor = $("#editor");
         imgno = 0; // 进入页面时，设定初始的图片编号为0 // 定义新变量时不使用 var 则为全局变量、
-        function getParam(key) {
-          const queryString = window.location.search;
-          console.log(queryString);
-          const urlParams = new URLSearchParams(queryString);
-          const id = urlParams.get(key)
-          console.log(id)
-          return id
+        imgLink = imageBox.src;
+        function changeExifData(v) {
+          if (Object.keys(v.exif_data).length === 0) {
+            wrapper.hide();
+            normalWrapper.show();
+            normalData.text("Shot By " + "lfkdsk");
+          } else {
+            wrapper.show();
+            normalWrapper.hide();
+            wrapperData(v, "lfkdsk");
+          }
         }
-        function replaceQueryParam(param, newval, search) {
-          var regex = new RegExp("([?;&])" + param + "[^&;]*[;&]?");
-          var query = search.replace(regex, "$1").replace(/&$/, '');
-          return (query.length > 2 ? query + "&" : "?") + (newval ? param + "=" + newval : '');
-        }
-        function updateParams(name) {
-          const url = new URL(window.location.href);
-          url.searchParams.set('name', name);
-          window.history.replaceState(null, null, url); // or pushState
-        }
+
         function changeImageWith(target) {
-          imgno = target.getAttribute('id'); 
-          var imgLink = target.getAttribute('rel');
-          var name = target.getAttribute('name');
+          imgno = target.getAttribute('id');
+          imgLink = target.getAttribute('rel');
+          name = target.getAttribute('name');
           var desc = target.getAttribute('desc');
-          imageBox.src = imgLink; //替换图片
+          var thum = target.getAttribute('data-src');
+          var video = target.getAttribute('video');
+          var v = JSON.parse(target.getAttribute('extra'));
+          imageBox.src = thum;
+          imageBox.classList.add('blur');
+          // load the original img.
+          const highResImage = new Image();
+          highResImage.src = imgLink;
+            highResImage.onload = function() {
+              imageBox.src = highResImage.src;
+              imageBox.classList.remove('blur');
+          };
+          imageBox.setAttribute("share", target.getAttribute('share'));
           var imageFancy = imageBox.parentElement; // imageBox 是放置大图片的图框
           imageFancy.setAttribute("href", imgLink);
+
+          var picg = document.getElementById('pic-g');
+          attachLivePhoto(picg, false, '');
+          attachLivePhoto(picg, video !== '', video);
           var fancyBoxImage = document.getElementsByClassName("fancybox__image")[0];
           if (fancyBoxImage !== undefined) {
             fancyBoxImage.src = imgLink;
           }
           target.scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" })
-          descBox.text(desc);
+          descBox.text(imgno.desc);
+          imageBox.title = desc;
+          changeExifData(v);
           updateParams(name);
         }
         function cheangeImageInSelector() {
@@ -563,11 +872,33 @@
           var value = $(`[name='${name}']`)[0];
           changeImageWith(value)
         };
-        const name = getParam('name')
         const len = +'15'
-        if (name !== "" && name !== null) {
+        if (name !== "" && name !== null && name !== 'null') {
           changeImageWithName(name)
+        } else {
+          var value = $(`#0`)[0];
+          name = value.getAttribute('name');
+          imageBox.title = value.getAttribute('desc');
+          var v = JSON.parse(value.getAttribute('extra'));
+          changeExifData(v);
+          imageBox.setAttribute("share", value.getAttribute('share'));
         }
+
+        $('#download').click(function () {
+          var node = document.getElementById('all-pic');
+          html2canvas(node, {
+            useCORS: true,
+            allowTaint: true,
+            scrollX: 0,
+            scrollY: 0,
+          }).then(function (canvas) {
+            simulateDownloadImageClick(canvas.toDataURL('image/png'),  name + '.png');
+          });
+        });
+        editor.click(function () {
+          window.open('https://lfkdsk.github.io/create-gallery/editor?file=' + encodeURIComponent(imgLink));
+        })
+        // key
         window.onkeydown = function album_hotkey() {
           //[键盘快捷键] 左箭头 上一张
           if (event.keyCode === 37) {
@@ -593,11 +924,26 @@
             imgno = 0;
             cheangeImageInSelector();
           };
-        }
+        };
+        $("#share").on('click', function() {
+          var imageBox = document.getElementById("imgbox");
+          copyToClipboard('https://lfkdsk.github.io/create-gallery/' + "photo?name=" + imageBox.getAttribute('share'));
+        });
+        $("#grid").on('click', function() {
+          window.open('/create-gallery/grid-all?album=' + encodeURIComponent('DaLi2022'));
+        });
       </script>
       <style>
         body {
           background-color: #fff;
+        }
+
+        .fullscreen-pic {
+          grid-column: span 3 / span 3;
+        }
+
+        .fullscreen-info {
+          grid-column: span 3 / span 3;
         }
 
         .album-comment {
@@ -619,19 +965,24 @@
           background-color: black;
           background-size: cover;
           background-position: center;
-          transition: all .3s ease-in-out;
+          transition: all .1s ease-in-out;
           min-height: 200px;
           aspect-ratio: 3 / 2;
+        }
+
+        .blur {
+          filter: blur(50px);
         }
 
         .pic-item > a {
           width: 100%;
           height: 100%;
+          overflow: hidden;
           display: inline-block;
         }
 
         .pic-box {
-          transition: all .3s ease-in-out;
+          transition: all .1s ease-in-out;
           display: inline-block;
           width: 100%;
           height: 100%;
@@ -655,7 +1006,7 @@
         }
 
 
-        .album-location {
+        .album-tool {
           display: inline-flex;
           font-size: .8em;
           color: #71afdd;
@@ -664,12 +1015,15 @@
         }
 
         .album-list {
-          padding-top: 6px;
+          padding-top: 12px;
           overflow-x: scroll;
         }
 
         .album-item {
+          background-color: black;
           aspect-ratio: 1 / 1;
+          border: 0.8px solid black;
+          border-radius: 2px;
           min-height: 100px;
           min-width: 100px;
           background-size: cover;
@@ -683,7 +1037,11 @@
 
           .pic-area {
             grid-column: span 3 / span 3;
-            padding: 16px;
+            padding: 8px 8px 0 8px;
+          }
+
+          .default-pic {
+            grid-column: span 3 / span 3;
           }
 
           .album-info {
@@ -698,13 +1056,21 @@
           .album-title {
             font-size: 1.5em;
           }
+
+          .wrapper {
+            padding: 8px;
+          }
+
+          iframe {
+            max-width: 100%;
+          }
         }
 
         @media (min-width: 769px) {
           .content-area {
             max-width: 92%;
             margin: 0 auto;
-            padding: 135px 16px 16px 16px;
+            padding: 115px 16px 16px 16px;
           }
 
           .album-article {
@@ -716,13 +1082,21 @@
             overflow-y: scroll;
           }
 
-          .pic-area {
-            grid-column: span 2 / span 2;
+          .default-info {
+            padding-left: 16px;
           }
 
-          .album-info {
-            grid-column: span 1 / span 1;
-            margin-left: 12px;
+          .pic-area {
+            grid-column: span 2 / span 2;
+            padding: 12px 12px 4px 12px;
+          }
+
+          #exif-wrapper {
+            margin-top: 4px;
+          }
+
+          .default-pic {
+            grid-column: span 2 / span 2;
           }
         }
 
@@ -741,7 +1115,7 @@
             color: #fff;
           }
 
-          .album-location {
+          .album-tool {
             color: #bdbdbd;
           }
 
@@ -749,37 +1123,42 @@
             color: white;
             opacity: 80%;
           }
+
+          .pic-item {
+            background-color: black;
+          }
+
+          .album-item {
+            background-color: black;
+          }
+
+          .album-item {
+            border: 0.8px solid white;
+          }
         }
 
-        .fullscreen-pic {
-          grid-column: span 3 / span 3;
-        }
-
-        .fullscreen-info {
-          grid-column: span 3 / span 3;
-        }
       </style>
 </section>
   <!-- Footer -->
   <!-- Footer -->
 <footer class="itp-footer text-center">
   <section class="footer-info">
-    Create Gallery Demo &copy; 2017 - 2023
+    Create Gallery Demo &copy; 2017 - 2025
     
     
-    
-    <span> / </span>
-    <span id="busuanzi_container_site_pv">PV <span id="busuanzi_value_site_pv"></span></span>
     
     <span> / Template</span>
     <a href="https://github.com/lfkdsk/album_template" target="_blank">Type
     </a>
   </section>
   
-    <a href="https://lfkdsk.github.io/" target="_blank">
-      <img width="80px" height="80px" style="padding-top: 12px; display: block; margin: 0 auto;" src="https://github.com/lfkdsk/picx-images-hosting/raw/master/20230817/tripper2white.2pbuwaqvndu0.webp" alt="footer logo"></a>
+    <section class="footer-logo">
+      <a href="https://lfkdsk.github.io/" target="_blank">
+        <img width="80px" height="80px" style="padding-top: 12px; display: block; margin: 0 auto;" src="https://github.com/lfkdsk/picx-images-hosting/raw/master/20230817/tripper2white.2pbuwaqvndu0.webp" alt="footer logo"></a>
+    </section>
   
 </footer>
+
   <!-- After footer scripts -->
   <!-- fancybox -->
 
@@ -790,14 +1169,16 @@
 
 <!-- busuanzi -->
 
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" defer></script>
+<!-- <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" defer></script> -->
 
 <!-- highlightjs -->
 
 
-<script src="/create-gallery/js/highlight.min.js" async></script>
+<script src="/create-gallery/js/highlight.min.js"></script>
 
-<script>window.addEventListener('load', () => hljs.initHighlighting());</script>
+<script>window.addEventListener('load', () => {
+  hljs.highlightAll(); // initialize highlighting
+});</script>
 <script>
   $("pre.code").each(function() {
     $(this).html("<ol><li>" + $(this).html().replace(/\n/g, "\n</li><li>") + "\n</li></ol>");

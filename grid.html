@@ -22,14 +22,14 @@
   <meta name="author" content="lfkdsk">
   
   <!--Open Graph Title-->
-  <meta property="og:title" content="Create Gallery Demo" />
+  <meta property="og:title" content="Grid" />
   <!--Open Graph Description-->
   <meta property="og:description" content="Create Gallery Demo 拿起相机，认真思考" />
   <!--Open Graph Site Name-->
   <meta property="og:site_name" content="Create Gallery Demo" />
   <!--Type page-->
   
-  <meta property="og:type" content="website" />
+  <meta property="og:type" content="article" />
   
   <!--Page Cover-->
   
@@ -38,7 +38,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <!-- Title -->
   
-  <title>Create Gallery Demo - Take Photo Think Seriously</title>
+  <title>Grid - Create Gallery Demo</title>
   <!-- 添加到主屏后的标题（iOS 6 新增） -->
   <meta name="apple-mobile-web-app-title" content="Create Gallery Demo">
   <!-- 是否启用 WebApp 全屏模式 -->
@@ -258,90 +258,51 @@
   }
 </style>
   <!-- Main Content -->
-  <section class="pjax-area">
+  <script src="js/sql-wasm.js"></script>
+<section class="pjax-area">
   <div class="content-area album-area">
-    
-      <div class="container gpro-slogan title">
-        
-          The moments when I pressed the shutter, the moments are forever.
-            
-      </div>
+    <div id="grid" class="container gpro-container grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
       
-        <div id="year-button"></div>
-        <div class="container gpro-container grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-          
-            
-              
-                
-                  <a href="/create-gallery/MoShiKouCat">
-                    
-                      
-                        <div class="gpro-tile lazy" data-src="https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@thumbnail/MoShiKouCat/15.打呼.webp">
-                          <div class="gpro-tile-descr flex-col">
-                            <div class="text-xl font-medium">
-                              模式口 · 拍猫
-                            </div>
-                            
-                              
-                                <div class="text-sm opacity-75">
-                                  2023-09-01
-                                </div>
-                                
-                          </div>
-                        </div>
-                  </a>
-                
-              
-              
-                
-                  <a href="/create-gallery/FaYuanTampleCat">
-                    
-                      
-                        <div class="gpro-tile lazy" data-src="https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@thumbnail/FaYuanTampleCat/1.美丽黑猫.webp">
-                          <div class="gpro-tile-descr flex-col">
-                            <div class="text-xl font-medium">
-                              北京 · 法源寺 · 陶然亭 · 拍猫
-                            </div>
-                            
-                              
-                                <div class="text-sm opacity-75">
-                                  2023-08-26
-                                </div>
-                                
-                          </div>
-                        </div>
-                  </a>
-                
-              
-              
-                
-                  <a href="/create-gallery/DaLi2022">
-                    
-                      
-                        <div class="gpro-tile lazy" data-src="https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@thumbnail/DaLi2022/20230818-033845.6obr4awlbf40.webp">
-                          <div class="gpro-tile-descr flex-col">
-                            <div class="text-xl font-medium">
-                              2022 · 大理
-                            </div>
-                            
-                              
-                                <div class="text-sm opacity-75">
-                                  2022-10-01
-                                </div>
-                                
-                          </div>
-                        </div>
-                  </a>
-                
-              
-            
-        </div>
+    </div>
   </div>
-  <script>
+  <script type="module">
+    var grid = document.getElementById("grid");
+    var name = getParam('name');
+    const start = performance.now();
+    const SQL = await initSqlJs({
+      locateFile: (file) => `/create-gallery/js/sql-wasm.wasm`,
+    });
+    const sqlite = await fetch("sqlite.db");
+    const sqlite_buf = await sqlite.arrayBuffer();
+    const db = new SQL.Database(new Uint8Array(sqlite_buf));
+    const result = db.exec(
+`
+SELECT photo.path, album.dir
+FROM photo
+LEFT OUTER JOIN album
+ON photo.dir_id = album.id
+WHERE album.dir = '` + name + "'"
+    )[0].values;
+    var setTitle = true;
+    for (const v of result) {
+      var d = document.createElement('div');
+      d.classList = 'gpro-tile lazy';
+      d.setAttribute('data-src', 'https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@thumbnail/' + v[0].replace(/\.\w+$/, '.webp'));
+      var a = document.createElement('a');
+      a.setAttribute('data-fancybox', 'gallery');
+      a.href = 'https://cdn.jsdelivr.net/gh/lfkdsk/create-gallery@master/' + v[0];
+      a.appendChild(d);
+      grid.appendChild(a);
+      if (setTitle) {
+        setTitle = false;
+        document.title = v[1] + ' ' + document.title; 
+      }
+    }
     $(function () {
       $("div.lazy").lazyload();
-      addYearEndSummaryLink(document.getElementById("year-button"), "https://lfkdsk.github.io/create-gallery")
     });
+    const duration = performance.now() - start;
+    console.log(duration);    
   </script>
   <style>
     body {
@@ -365,8 +326,7 @@
     }
 
     .gpro-container {
-      margin-top: 120px;
-      gap: 12px;
+      gap: 20px;
     }
 
     .gpro-tile {
@@ -417,11 +377,11 @@
       }
 
       .content-area {
-        margin-top: 80px;
+        margin-top: 0px;
       }
 
       .gpro-container {
-        margin-top: 60px;
+        margin-top: 40px;
       }
     }
   </style>
@@ -502,39 +462,6 @@
 <!---->
 <!---->
 <!--首页键盘快捷键-->
-
-<script>
-  window.onkeydown = function allpage_hotkey() {
-    //[键盘快捷键] Shift+1 首页
-    if (event.shiftKey && event.keyCode === 49) {
-      window.location.href = "/create-gallery/"
-    };
-    //[键盘快捷键] Shift+2 归档页
-    if (event.shiftKey && event.keyCode === 50) {
-      window.location.href = "/archives/"
-    };
-    //[键盘快捷键] Shift+3 相册页
-    if (event.shiftKey && event.keyCode === 51) {
-      window.location.href = "/gallery/"
-    };
-    //[键盘快捷键] Shift+4 关于页
-    if (event.shiftKey && event.keyCode === 52) {
-      window.location.href = "/about/"
-    };
-    //[键盘快捷键] Shift+5 友情链接页
-    if (event.shiftKey && event.keyCode === 53) {
-      window.location.href = "/links/"
-    };
-    //[键盘快捷键] 左箭头 上一页
-    if (event.keyCode === 37) {
-      window.location.href = "/create-gallery/"
-    };
-    //[键盘快捷键] 右箭头 下一页
-    if (event.keyCode === 39) {
-      window.location.href = "/create-gallery/"
-    };
-  }
-</script>
 
   <style>
   :root {

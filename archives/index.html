@@ -53,7 +53,7 @@
   <link rel="apple-touch-icon" sizes="114x114" href="https://imgur.lzmun.com/picgo/after2022/tripper2color.png_iPhoneHD" />
   <link rel="apple-touch-icon" sizes="144x144" href="https://imgur.lzmun.com/picgo/after2022/tripper2color.png_RetinaiPad" />
   <!-- 添加 RSS 订阅 -->
-  <link rel="alternate" type="application/rss+xml" title="Create Gallery Demo" href="/atom.xml" />
+  <link rel="alternate" type="application/rss+xml" title="Create Gallery Demo" href="/rss" />
   <!-- uc强制竖屏 -->
   <meta name="screen-orientation" content="portrait">
   <!-- QQ强制竖屏 -->
@@ -68,7 +68,8 @@
   <meta name="x5-page-mode" content="app">
   <!-- https://material.io/resources/icons/?style=outline -->
   
-  <script src="https://lf1-cdn-tos.bytegoofy.com/obj/iconpark/icons_20213_18.4a5f87dae8e6f9e336b9ad6fa00f8e8f.js"></script>
+  
+  <script src="https://lf1-cdn-tos.bytegoofy.com/obj/iconpark/icons_29703_16.0f9623ad85e64efb07f6dddba36807a6.js"></script>
   
   
 <style>
@@ -120,6 +121,7 @@
   
   
   
+  
   <!--highlight.js CSS-->
   
   
@@ -127,16 +129,22 @@
 
   
   
+
+  
+
   <!-- jquery -->
   
   <script src="/create-gallery/js/jquery.min.js"></script>
   
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
   <!--Comment-->
   
   <!--Vercel Audiences Analytics-->
   
   <!--umami analytics-->
   
+  <script src="js/tools.js"></script>
   <!--Howxm Analytics-->
   
   
@@ -199,6 +207,7 @@
 <link rel="stylesheet" href="/create-gallery/css/tailwind.css">
 
 <meta name="generator" content="Hexo 6.0.0"></head>
+
 
 
 <!--Other Pages-->
@@ -272,14 +281,14 @@
   
   
   
-  <p class="text-2xl leading-10 py-2 col-span-1 md:col-span-2 lg:col-span-3 gap-1 text-tblack dark:text-white">2023</p>
+  <p class="text-2xl leading-10 py-2 col-span-1 md:col-span-2 lg:col-span-3 gap-1 text-tblack dark:text-white">2025</p>
   
   
   <div class="h-auto px-3 py-1 hover:bg-gray-200 dark:hover:bg-gray-800 rounded transition-all">
-    <a href="/create-gallery/2023/undefined/" class="flex items-center">
+    <a href="/create-gallery/2025/undefined/" class="flex items-center">
       <div class="px-1">
         <div class="post-title text-tblack dark:text-white">照片集</div>
-        <span class="text-sm leading-4 text-gray-400">2023-10-11</span>
+        <span class="text-sm leading-4 text-gray-400">2025-09-17</span>
         
       </div>
     </a>
@@ -307,22 +316,22 @@
   <!-- Footer -->
 <footer class="itp-footer text-center">
   <section class="footer-info">
-    Create Gallery Demo &copy; 2017 - 2023
+    Create Gallery Demo &copy; 2017 - 2025
     
     
-    
-    <span> / </span>
-    <span id="busuanzi_container_site_pv">PV <span id="busuanzi_value_site_pv"></span></span>
     
     <span> / Template</span>
     <a href="https://github.com/lfkdsk/album_template" target="_blank">Type
     </a>
   </section>
   
-    <a href="https://lfkdsk.github.io/" target="_blank">
-      <img width="80px" height="80px" style="padding-top: 12px; display: block; margin: 0 auto;" src="https://github.com/lfkdsk/picx-images-hosting/raw/master/20230817/tripper2white.2pbuwaqvndu0.webp" alt="footer logo"></a>
+    <section class="footer-logo">
+      <a href="https://lfkdsk.github.io/" target="_blank">
+        <img width="80px" height="80px" style="padding-top: 12px; display: block; margin: 0 auto;" src="https://github.com/lfkdsk/picx-images-hosting/raw/master/20230817/tripper2white.2pbuwaqvndu0.webp" alt="footer logo"></a>
+    </section>
   
 </footer>
+
   <!-- After footer scripts -->
   <!-- fancybox -->
 
@@ -333,14 +342,16 @@
 
 <!-- busuanzi -->
 
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" defer></script>
+<!-- <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" defer></script> -->
 
 <!-- highlightjs -->
 
 
-<script src="/create-gallery/js/highlight.min.js" async></script>
+<script src="/create-gallery/js/highlight.min.js"></script>
 
-<script>window.addEventListener('load', () => hljs.initHighlighting());</script>
+<script>window.addEventListener('load', () => {
+  hljs.highlightAll(); // initialize highlighting
+});</script>
 <script>
   $("pre.code").each(function() {
     $(this).html("<ol><li>" + $(this).html().replace(/\n/g, "\n</li><li>") + "\n</li></ol>");
