@@ -1,0 +1,36 @@
+{
+  "_meta": {
+    "description": "动物图片索引 — 按动物种类归档，值为文件路径列表",
+    "format": "folder/filename.ext",
+    "generated": "2026-04-30",
+    "status": "首次全量扫描完成；后续增量扫描以 .analysis/animal_scan_results/ 缓存为准。"
+  },
+  "中华田园猫·橘白 / Chinese Domestic Cat (Orange and White)": [
+    "20250510-MtHua/DSCF3961.webp"
+  ],
+  "中华田园猫·狸花 / Chinese Domestic Cat (Brown Tabby)": [
+    "20250510-MtHua/DSCF3961.webp",
+    "20250510-MtHua/DSCF4021.webp",
+    "20250510-MtHua/DSCF4188.webp",
+    "20250510-MtHua/DSCF4193.webp"
+  ],
+  "中华田园猫·黑白 / Chinese Domestic Cat (Black and White)": [
+    "20250510-MtHua/DSCF3963.webp"
+  ],
+  "中华田园猫·纯白 / Chinese Domestic Cat (Solid White)": [
+    "20250510-MtHua/DSCF4021.webp",
+    "20250510-MtHua/DSCF4032.webp",
+    "20250510-MtHua/DSCF4034.webp",
+    "20250510-MtHua/DSCF4040.webp"
+  ],
+  "中华田园猫·灰白 / Chinese Domestic Cat (Gray and White)": [
+    "20250510-MtHua/DSCF4126.webp"
+  ],
+  "中华田园猫·橘虎斑 / Chinese Domestic Cat (Orange Tabby)": [
+    "20250510-MtHua/DSCF4082.webp",
+    "20250510-MtHua/DSCF4100.webp",
+    "20250510-MtHua/DSCF4128.webp",
+    "20250510-MtHua/DSCF4199.webp",
+    "20250510-MtHua/DSCF4202.webp"
+  ]
+}
